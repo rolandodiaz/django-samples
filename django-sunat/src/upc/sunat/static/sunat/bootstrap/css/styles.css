@@ -1,0 +1,15 @@
+
+
+body {
+          padding-top: 20px;
+          padding-bottom: 60px;
+        }
+
+        .container {
+          margin: 0 auto;
+          max-width: 1000px;
+        }
+
+        .jumbotron {
+          margin: 40px 0;
+        }

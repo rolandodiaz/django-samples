@@ -1,0 +1,87 @@
+{% extends 'layout.html' %}
+{% load querytags %}
+{% block content %}
+    <br><br><br>
+    <form method="GET" xmlns="http://www.w3.org/1999/html">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="modal">
+                    <div class="modal-header">
+                        <h3>Formulario de consulta</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row-fluid">
+                            <div class="span2">
+                                {{ form.ruc.label }}
+                            </div>
+                            <div class="span3">
+                                {{ form.ruc.errors }}
+                                {{ form.ruc }}
+                            </div>
+                            <div class="span2">
+                                <input type="submit" value="Consultar">
+                            </div>
+                            {% if page_obj|length > 0 %}
+                            <div class="span2 offset3">
+                            Page {{ page_obj.number }} of {{ paginator.num_pages }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <br>
+
+                        <div class="row-fluid">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                <th>Item</th>
+                                <th>Concepto</th>
+                                <th>Ruc</th>
+                                <th>Periodo</th>
+                                <th>tributo</th>
+                                <th>Resolucion</th>
+                                <th>Monto</th></tr>
+                                </thead>
+                                <tbody>
+                                {% for debt in page_obj %}
+                                    <tr class="{% cycle 'success' '' %}">
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ debt.concept }}</td>
+                                        <td>{{ debt.person }}</td>
+                                        <td>{{ debt.period }}</td>
+                                        <td>{{ debt.tax_code }}</td>
+                                        <td>{{ debt.resolution_number }}</td>
+                                        <td>{{ debt.amount }}</td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="7">
+                                            No se encontraron datos
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% if page_obj|length > 0 %}
+                        <div class="pagination pagination-centered">
+                            <ul>
+                                {% if page_obj.has_previous %}
+
+                                <li><a href="{% querystring "page"=page_obj.previous_page_number %}">«</a></li>
+                                {% endif %}
+                                <li class="active"><a href="#">{{ page_obj.number }}</a></li>
+                                {% if page_obj.has_next  %}
+                                <li><a href="{% querystring "page"=page_obj.next_page_number %}">»</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+
+{% endblock %}
